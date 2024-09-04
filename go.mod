@@ -4,14 +4,14 @@ go 1.22.0
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/mailstepcz/enums v0.0.0-20240903145554-276bee708108
-	github.com/mailstepcz/maybe v0.0.0-20240903135450-b09eb1dc973b
-	github.com/mailstepcz/must v0.0.0-20240903134230-668ac596d0f0
+	github.com/mailstepcz/enums v0.1.0
+	github.com/mailstepcz/maybe v0.1.0
+	github.com/mailstepcz/must v0.1.0
 	github.com/mailstepcz/pointer v0.1.0
 	github.com/mailstepcz/serr v0.1.0
-	github.com/mailstepcz/slice v0.0.0-20240903142504-30f94ec5e213
-	github.com/mailstepcz/types v0.0.0-20240903144039-e40b490506d0
-	github.com/mailstepcz/validate v0.0.0-20240903143942-920ceca7f9a4
+	github.com/mailstepcz/slice v0.1.0
+	github.com/mailstepcz/types v0.1.0
+	github.com/mailstepcz/validate v0.1.0
 	github.com/oklog/ulid/v2 v2.1.0
 	github.com/shopspring/decimal v1.4.0
 	github.com/stretchr/testify v1.9.0
