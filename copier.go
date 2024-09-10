@@ -1,4 +1,4 @@
-// Package keyvalue provides functions that copy data between structures.
+// Package keyvalue provides the [Copy] function that copies data between structures.
 // The functionality includes implicit and custom conversions.
 package keyvalue
 
