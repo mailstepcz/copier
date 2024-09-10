@@ -3,6 +3,7 @@ package keyvalue
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"strconv"
 	"testing"
@@ -1466,4 +1467,57 @@ func TestCopyMap(t *testing.T) {
 	req.Len(res, 1)
 	req.Equal(s[0].ID, res[0].ID.String())
 
+}
+
+func ExampleCopy() {
+	type source struct {
+		ID string
+	}
+	type target struct {
+		ID uuid.UUID
+	}
+	var t target
+	if err := Copy(&t, &source{
+		ID: "faf5914d-0734-4d91-b486-e046ce197292",
+	}); err != nil {
+		panic(err)
+	}
+	fmt.Println(t)
+	// Output: {faf5914d-0734-4d91-b486-e046ce197292}
+}
+
+func ExampleCopy_second() {
+	type source struct {
+		ID string
+	}
+	type target struct {
+		ID uuid.UUID
+	}
+	var t target
+	if err := Copy(&t, &source{
+		ID: "",
+	}); err != nil {
+		fmt.Println("error:", err)
+	} else {
+		fmt.Println(t)
+	}
+	// Output: error: invalid UUID length: 0
+}
+
+func ExampleCopy_third() {
+	type source struct {
+		ID string
+	}
+	type target struct {
+		ID uuid.UUID
+	}
+	var t target
+	if err := Copy(&t, &source{
+		ID: "faf5914d-0734-4d91-b486-e046ce19729g",
+	}); err != nil {
+		fmt.Println("error:", err)
+	} else {
+		fmt.Println(t)
+	}
+	// Output: error: invalid UUID format
 }
