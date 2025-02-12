@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/mailstepcz/types"
+	"github.com/rickb777/date/v2"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -146,6 +147,12 @@ func destValue(t reflect.Type, v reflect.Value, builder func() interface{}, cust
 			u.Valid = true
 		}
 		return u, nil
+	case t == types.Date && v.Type() == types.TimestampPtr:
+		var d date.Date
+		if v := v.Interface().(*timestamppb.Timestamp); v != nil {
+			d = date.NewAt(v.AsTime())
+		}
+		return d, nil
 	case t == types.Time && v.Type() == types.NullTime:
 		var t time.Time
 		if v := v.Interface().(sql.NullTime); v.Valid {
