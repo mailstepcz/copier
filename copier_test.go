@@ -699,7 +699,6 @@ func TestCopierCreationSuccess(t *testing.T) {
 	copiers = make(map[copierTypePair]func(unsafe.Pointer, unsafe.Pointer) error)
 
 	copier, err := CopierForPair(reflect.TypeOf((*copierDst1)(nil)).Elem(), reflect.TypeOf((*copierSrc1)(nil)).Elem())
-	fmt.Println(err.Error())
 	req.Nil(err)
 
 	var dst copierDst1
