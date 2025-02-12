@@ -261,10 +261,8 @@ func valConv(dstType, srcType reflect.Type) (func(unsafe.Pointer, unsafe.Pointer
 
 	case srcType == types.TimestampPtr && dstType == types.Date:
 		return func(dst, src unsafe.Pointer) error {
-			x := *(**timestamppb.Timestamp)(src)
-			if x.IsValid() {
-				y := reflect.NewAt(dstType, dst).Interface().(maybe.Iface)
-				y.SetPtr(unsafe.Pointer(pointer.To(date.NewAt(x.AsTime()))))
+			if ts := *(**timestamppb.Timestamp)(src); ts.IsValid() {
+				*(*date.Date)(dst) = date.NewAt(ts.AsTime())
 			}
 			return nil
 		}, nil

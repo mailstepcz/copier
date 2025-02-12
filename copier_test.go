@@ -757,6 +757,8 @@ func TestCopierCreationSuccess(t *testing.T) {
 		DM1: &dm1,
 		DM2: maybe.Unit(decimal.New(5678, -2)),
 		TS7: maybe.Nothing[time.Time](),
+		D3:  timestamppb.Now(),
+		D4:  date.Today(),
 	}))
 	req.Nil(err)
 
@@ -798,6 +800,8 @@ func TestCopierCreationSuccess(t *testing.T) {
 	req.Equal(decimal.New(1234, -2), dst.DM1.Val)
 	req.Equal("56.78", *dst.DM2)
 	req.Nil(dst.TS7)
+	req.Equal(date.Today(), dst.D3)
+	req.Equal(date.New(time.Now().Year(), time.Now().Month(), time.Now().Day()), dst.D3)
 }
 
 func TestNativeCopyCreationSuccess(t *testing.T) {
