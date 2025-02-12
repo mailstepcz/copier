@@ -138,6 +138,7 @@ type copierDst1 struct {
 	TS7   *timestamppb.Timestamp
 	D3    date.Date
 	D4    *timestamppb.Timestamp
+	D5    maybe.Maybe[date.Date]
 }
 
 type copierSrc1 struct {
@@ -181,6 +182,7 @@ type copierSrc1 struct {
 	TS7     maybe.Maybe[time.Time]
 	D3      *timestamppb.Timestamp
 	D4      date.Date
+	D5      *timestamppb.Timestamp
 }
 
 func (x *copierSrc1) toDst() (*copierDst1, error) {
@@ -759,6 +761,7 @@ func TestCopierCreationSuccess(t *testing.T) {
 		TS7: maybe.Nothing[time.Time](),
 		D3:  timestamppb.Now(),
 		D4:  date.Today(),
+		D5:  timestamppb.Now(),
 	}))
 	req.Nil(err)
 
@@ -801,7 +804,8 @@ func TestCopierCreationSuccess(t *testing.T) {
 	req.Equal("56.78", *dst.DM2)
 	req.Nil(dst.TS7)
 	req.Equal(date.Today(), dst.D3)
-	req.Equal(date.New(time.Now().Year(), time.Now().Month(), time.Now().Day()), dst.D3)
+	req.Equal(timestamppb.New(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.UTC)), dst.D4)
+	req.Equal(date.New(time.Now().Year(), time.Now().Month(), time.Now().Day()), dst.D5.Val)
 }
 
 func TestNativeCopyCreationSuccess(t *testing.T) {

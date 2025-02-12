@@ -446,6 +446,16 @@ func valConv(dstType, srcType reflect.Type) (func(unsafe.Pointer, unsafe.Pointer
 				return nil
 			}, nil
 		}
+		if srcType == types.TimestampPtr && maybeType == types.Date {
+			return func(dst, src unsafe.Pointer) error {
+				x := *(**timestamppb.Timestamp)(src)
+				if x.IsValid() {
+					y := reflect.NewAt(dstType, dst).Interface().(maybe.Iface)
+					y.SetPtr(unsafe.Pointer(pointer.To(date.NewAt(x.AsTime()))))
+				}
+				return nil
+			}, nil
+		}
 		conv, err := valConv(maybeType, srcType.Elem())
 		if err != nil {
 			return nil, err
