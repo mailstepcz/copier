@@ -16,6 +16,7 @@ import (
 	"github.com/mailstepcz/pointer"
 	"github.com/mailstepcz/validate"
 	"github.com/oklog/ulid/v2"
+	"github.com/rickb777/date/v2"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
@@ -135,6 +136,8 @@ type copierDst1 struct {
 	DM1   maybe.Maybe[decimal.Decimal]
 	DM2   *string
 	TS7   *timestamppb.Timestamp
+	D3    date.Date
+	D4    *timestamppb.Timestamp
 }
 
 type copierSrc1 struct {
@@ -176,6 +179,8 @@ type copierSrc1 struct {
 	DM1     *string
 	DM2     maybe.Maybe[decimal.Decimal]
 	TS7     maybe.Maybe[time.Time]
+	D3      *timestamppb.Timestamp
+	D4      date.Date
 }
 
 func (x *copierSrc1) toDst() (*copierDst1, error) {
@@ -307,6 +312,8 @@ func (x *copierSrc1) toDst() (*copierDst1, error) {
 		TS6:   ts6,
 		DM1:   dm1,
 		DM2:   dm2,
+		D3:    date.NewAt(time.Now()),
+		D4:    timestamppb.Now(),
 	}, nil
 }
 
@@ -692,6 +699,7 @@ func TestCopierCreationSuccess(t *testing.T) {
 	copiers = make(map[copierTypePair]func(unsafe.Pointer, unsafe.Pointer) error)
 
 	copier, err := CopierForPair(reflect.TypeOf((*copierDst1)(nil)).Elem(), reflect.TypeOf((*copierSrc1)(nil)).Elem())
+	fmt.Println(err.Error())
 	req.Nil(err)
 
 	var dst copierDst1

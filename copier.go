@@ -21,6 +21,7 @@ import (
 	"github.com/mailstepcz/types/iface"
 	"github.com/mailstepcz/validate"
 	"github.com/oklog/ulid/v2"
+	"github.com/rickb777/date/v2"
 	"github.com/shopspring/decimal"
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -255,6 +256,23 @@ func valConv(dstType, srcType reflect.Type) (func(unsafe.Pointer, unsafe.Pointer
 		return func(dst, src unsafe.Pointer) error {
 			x := (*uuid.UUID)(src)
 			*(*string)(dst) = x.String()
+			return nil
+		}, nil
+
+	case srcType == types.TimestampPtr && dstType == types.Date:
+		return func(dst, src unsafe.Pointer) error {
+			x := *(**timestamppb.Timestamp)(src)
+			if x.IsValid() {
+				y := reflect.NewAt(dstType, dst).Interface().(maybe.Iface)
+				y.SetPtr(unsafe.Pointer(pointer.To(date.NewAt(x.AsTime()))))
+			}
+			return nil
+		}, nil
+
+	case srcType == types.Date && dstType == types.TimestampPtr:
+		return func(dst, src unsafe.Pointer) error {
+			x := *(*date.Date)(src)
+			*(**timestamppb.Timestamp)(dst) = timestamppb.New(x.MidnightUTC())
 			return nil
 		}, nil
 

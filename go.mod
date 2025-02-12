@@ -13,6 +13,7 @@ require (
 	github.com/mailstepcz/types v0.1.3
 	github.com/mailstepcz/validate v0.1.0
 	github.com/oklog/ulid/v2 v2.1.0
+	github.com/rickb777/date/v2 v2.1.6
 	github.com/shopspring/decimal v1.4.0
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/text v0.21.0
@@ -27,7 +28,6 @@ require (
 	github.com/govalues/decimal v0.1.32 // indirect
 	github.com/jinzhu/copier v0.4.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/rickb777/date/v2 v2.1.6 // indirect
 	github.com/rickb777/period v1.0.7 // indirect
 	github.com/rickb777/plural v1.4.2 // indirect
 	golang.org/x/sys v0.29.0 // indirect
